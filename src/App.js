@@ -1,25 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import Counter from "./Counter";
+import Todo from "./Todo";
+import Kanban from "./Kanban";
+import {useState} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [apps, setApps] = useState('')
+
+
+    return (
+        <div className="App">
+            <button onClick={() => setApps('Counter')}>Counter</button>
+            <button onClick={() => setApps('To do')}>To do</button>
+            <button onClick={() => setApps('Kanban')}>Kanban</button>
+            {apps === 'Counter' && <Counter/>}
+            {apps === 'To do' && <Todo/>}
+            {apps === 'Kanban' && <Kanban/>}
+        </div>
+    );
 }
 
 export default App;
