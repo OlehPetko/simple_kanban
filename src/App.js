@@ -1,7 +1,7 @@
 import './App.css';
-import Counter from "./Counter";
-import Todo from "./Todo";
-import Kanban from "./Kanban";
+import Counter from "./Counter/Counter";
+import Todo from "./Todo/Todo";
+import Kanban from "./Kanban/Kanban";
 import {useState} from "react";
 
 function App() {
