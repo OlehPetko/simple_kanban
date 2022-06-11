@@ -10,16 +10,17 @@ function Kanban() {
             status: statuses[0],
             openDelete: true,
             openUpdate: true,
-            markDone: true
+            markDone: false
         },
-        {id: Math.random(), card: 'Java', status: statuses[0], openDelete: true, openUpdate: true, markDone: true},
-        {id: Math.random(), card: 'React', status: statuses[1], openDelete: true, openUpdate: true, markDone: true},
-        {id: Math.random(), card: 'C#', status: statuses[2], openDelete: true, openUpdate: true, markDone: true},
-        {id: Math.random(), card: 'Unity', status: statuses[3], openDelete: true, openUpdate: true, markDone: true},
+        {id: Math.random(), card: 'Java', status: statuses[0], openDelete: true, openUpdate: true, markDone: false},
+        {id: Math.random(), card: 'React', status: statuses[1], openDelete: true, openUpdate: true, markDone: false},
+        {id: Math.random(), card: 'C#', status: statuses[2], openDelete: true, openUpdate: true, markDone: false},
+        {id: Math.random(), card: 'Unity', status: statuses[3], openDelete: true, openUpdate: true, markDone: false},
     ]
     const [cards, setCards] = useState(initialState)
     const [newCard, setNewCard] = useState('')
     const [updateCard, setUpdateCard] = useState('')
+
 
     const addCard = () => {
         const updateCard = [...cards, {
@@ -50,7 +51,14 @@ function Kanban() {
       const updateCard = cards.map(card => card.id === id ? {...card, openUpdate: !card.openUpdate, card: newCard} : card)
       setCards(updateCard)
         setUpdateCard('')
-
+    }
+    const moveCard = (id, value) => {
+      const updateCard = cards.map(card => card.id === id ? {...card, status: statuses[statuses.indexOf(card.status) + value]} : card)
+        setCards(updateCard)
+    }
+    const markCard = (id) => {
+      const updateCard = cards.map(card => card.id === id ? {...card, markDone: !card.markDone } : card)
+        setCards(updateCard)
     }
 
     return (
@@ -64,7 +72,13 @@ function Kanban() {
                     </h1>
                     {cards.filter(card => status === card.status).map(card =>
                         <div key={card.id}>
-                            {card.card}
+                            {card.status !== 'done' && <button onClick={() => moveCard(card.id,  1)}>down</button>}
+                            {card.status !== 'todo' && <button onClick={() => moveCard(card.id, - 1)}>up</button>}
+                            <h5 style={card.markDone ? {textDecoration: "line-through"} : null}>
+                                {card.card}
+                            </h5>
+                            <input type="checkbox" onClick={() => markCard(card.id)}/>
+                            <button onClick={() => markCard(card.id)}>done</button>
                             {card.openDelete ?
                                 <button onClick={() => openWindowDelete(card.id)}>delete</button>
                                 :
@@ -82,7 +96,8 @@ function Kanban() {
                                     <button onClick={() => updateSaveCard(card.id, updateCard)}>save change</button>
                                     <button onClick={() => openWindowUpdate(card.id)}>cancel</button>
                                 </div>}
-
+                            <button disabled={card.status === 'todo'} onClick={() => moveCard(card.id, - 1)}>up</button>
+                            <button disabled={card.status === 'done'} onClick={() => moveCard(card.id, 1)}>down</button>
                         </div>)}
                 </div>
             )}
