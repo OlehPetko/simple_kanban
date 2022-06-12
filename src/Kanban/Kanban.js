@@ -29,7 +29,7 @@ function Kanban() {
             status: statuses[0],
             openDelete: true,
             openUpdate: true,
-            markDone: true
+            markDone: false
         }]
         setCards(updateCard)
         setNewCard('')
@@ -63,7 +63,7 @@ function Kanban() {
 
     return (
         <div className="App">
-            <input placeholder='add new task' value={newCard} onChange={event => setNewCard(event.target.value)}/>
+            <input autoFocus={true} placeholder='add new task' value={newCard} onChange={event => setNewCard(event.target.value)}/>
             <button onClick={addCard}>add new card</button>
             {statuses.map(status =>
                 <div key={status}>
@@ -90,7 +90,7 @@ function Kanban() {
                                 <button onClick={() => openWindowUpdate(card.id)}>update card</button>
                                 :
                                 <div>
-                                    <input placeholder='do you want update your TASK?'
+                                    <input autoFocus={true} placeholder='do you want update your TASK?'
                                            value={updateCard} onChange={event => setUpdateCard(event.target.value)}
                                     />
                                     <button onClick={() => updateSaveCard(card.id, updateCard)}>save change</button>

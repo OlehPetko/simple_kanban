@@ -20,9 +20,25 @@ const initialState = {
         {id: Math.random(), card: 'Unity', status: 'done', openDelete: true, openUpdate: true, markDone: false},
     ],
 }
-const tasks = (state=initialState, action) => {
-    switch (action.type){
-        case 'ADD_COUNTER':
+const tasks = (state = initialState, action) => {
+    switch (action.type) {
+        case 'ADD_TODO':
+            return {
+                ...state,
+                todos: [...state.todos, {id: Math.random(), name: action.payload, openTodo: true, openUpdate: true, markTodo: false}]
+            }
+        case 'OPEN_UPDATE_TODO':
+            return {
+                ...state, todos: state.todos.map(el => el.id === action.payload ? {...el, openUpdate: !el.openUpdate} : el)
+            }
+        case 'UPDATE_TODO': return {
+            ...state, todos: state.todos.map(el => el.id === action.payload.todoId ?
+                {...el, name: action.payload.updateTodo, openUpdate: !el.openUpdate} : el)
+        }
+        case 'MARK_TODO':
+            return {
+                ...state, todos: state.todos.map(el => el.id === action.payload ? {...el, markTodo: !el.markTodo} : el)
+            }
 
         default:
             return state

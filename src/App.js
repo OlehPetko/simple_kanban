@@ -27,8 +27,6 @@ function App() {
             {apps === 'Counter_with_redux' && <Counter_with_redux /> }
             {apps === 'Todo_with_redux' && <Todo_with_redux />}
             {apps === 'Kanban_with_redux' && <Kanban_with_redux />}
-
-
         </div>
     );
 }

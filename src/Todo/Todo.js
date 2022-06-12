@@ -1,12 +1,19 @@
 import '../App.css';
-import {useState} from "react";
+import {useId, useState} from "react";
 
 function Todo() {
+    const id1 = useId()
+    const id2 = useId()
+    const id3 = useId()
+    const id4 = useId()
+
+
+
     const initialState = [
-        {id: Math.random(), name: 'Liverpool', openTodo: true, openUpdate: true, markTodo: false},
-        {id: Math.random(), name: 'Vancouver', openTodo: true, openUpdate: true, markTodo: false},
-        {id: Math.random(), name: 'LA', openTodo: true, openUpdate: true, markTodo: false},
-        {id: Math.random(), name: 'San Francisco', openTodo: true, openUpdate: true, markTodo: false},
+        {id: id1, name: 'Liverpool', openTodo: true, openUpdate: true, markTodo: false},
+        {id: id2, name: 'Vancouver', openTodo: true, openUpdate: true, markTodo: false},
+        {id: id3, name: 'LA', openTodo: true, openUpdate: true, markTodo: false},
+        {id: id4, name: 'San Francisco', openTodo: true, openUpdate: true, markTodo: false},
     ]
     const [todos, setTodos] = useState(initialState)
     const [newTodo, setNewTodo] = useState('')
@@ -49,7 +56,7 @@ function Todo() {
 
     return (
         <div className="App">
-            <input placeholder='new todo' value={newTodo} onChange={event => setNewTodo(event.target.value)}/>
+            <input autoFocus={true} placeholder='new todo' value={newTodo} onChange={event => setNewTodo(event.target.value)}/>
             <button onClick={addNewTodo}>add new to do</button>
             <hr/>
             {todos.map((todo, i) =>
@@ -65,7 +72,7 @@ function Todo() {
                         </div>}
                     {todo.openUpdate ? <button onClick={() => openUpdateWindow(todo.id)}>update</button> :
                         <div>
-                            <input value={updateTodo} onChange={event => setUpdateTodo(event.target.value)}/>
+                            <input autoFocus={true} value={updateTodo} onChange={event => setUpdateTodo(event.target.value)}/>
                             <button onClick={() => saveUpdate(todo.id, updateTodo)}>save update</button>
                             <button onClick={() => openUpdateWindow(todo.id)}>cancel</button>
                         </div>
