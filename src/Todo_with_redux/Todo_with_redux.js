@@ -20,24 +20,26 @@ function Todo_with_redux(props) {
       props.openUpdateTodo(todoId)
         setUpdateTodo('')
     }
-
+    const moveHandlerTodo = (currentTodo, nextTodo) => {
+      props.moveTodo(currentTodo, nextTodo)
+    }
 
     return (
         <div className="App">
             <input autoFocus={true} value={newTodo} onChange={event => setNewTodo(event.target.value)}/>
             <button onClick={addHandlerTodo}>add to do</button>
-            {todos.map(todo =>
+            {todos.map((todo, i) =>
                 <div key={todo.id}>
                     <input type="checkbox" onClick={() => props.mark(todo.id)}/>
-                    <button>down</button>
+                    <button disabled={i === 0} onClick={() => moveHandlerTodo(i, i - 1)}>up</button>
                     <h3 style={todo.markTodo ? {textDecoration: "line-through"} : null}>
                         {todo.name}
                     </h3>
-                    <button>up</button>
-                    {todo.openTodo ? <button>delete</button> :
+                    <button disabled={i === todos.length - 1} onClick={() => moveHandlerTodo(i, i + 1)}>down</button>
+                    {todo.openTodo ? <button onClick={() => props.openDeleteTodo(todo.id)}>delete</button> :
                         <div>
-                            <button>yes delete</button>
-                            <button>cancel</button>
+                            <button onClick={() => props.deleteTodo(todo.id)}>yes delete</button>
+                            <button onClick={() => props.openDeleteTodo(todo.id)}>cancel</button>
                         </div>}
                     {todo.openUpdate ? <button onClick={() => props.openUpdateTodo(todo.id)}>update</button> :
                         <div>
@@ -50,7 +52,6 @@ function Todo_with_redux(props) {
         </div>
     );
 }
-
 const mapStateToProps = (state) => ({
     todos: state.todos
 })
@@ -58,7 +59,10 @@ const mapDispatchToProps = (dispatch) => ({
     mark: (todoId) => dispatch({type: 'MARK_TODO', payload: todoId}),
     addTodo: (newTodo) => dispatch({type: 'ADD_TODO', payload: newTodo}),
     updateAddTodo: (todoId, updateTodo) => dispatch({type: 'UPDATE_TODO', payload: {todoId, updateTodo}}),
-    openUpdateTodo: (todoId) => dispatch({type: 'OPEN_UPDATE_TODO', payload: todoId})
+    openUpdateTodo: (todoId) => dispatch({type: 'OPEN_UPDATE_TODO', payload: todoId}),
+    openDeleteTodo: (todoId) => dispatch({type: 'OPEN_DELETE_TODO', payload: todoId}),
+    deleteTodo: (todoId) => dispatch({type: 'DELETE_TODO', payload: todoId}),
+    moveTodo: (currentTodo, nextTodo) => dispatch({type: 'MOVE_TODO', payload: {currentTodo, nextTodo}})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo_with_redux);

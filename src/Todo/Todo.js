@@ -7,8 +7,6 @@ function Todo() {
     const id3 = useId()
     const id4 = useId()
 
-
-
     const initialState = [
         {id: id1, name: 'Liverpool', openTodo: true, openUpdate: true, markTodo: false},
         {id: id2, name: 'Vancouver', openTodo: true, openUpdate: true, markTodo: false},
@@ -79,7 +77,6 @@ function Todo() {
                     }
                 </div>
             )}
-
         </div>
     );
 }
