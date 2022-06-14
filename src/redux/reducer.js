@@ -67,6 +67,14 @@ const tasks = (state = initialState, action) => {
                     return el
                 })
             }
+        case 'ADD_NEW_CARD':
+            return {
+                ...state,
+                cards: [...state.cards, {
+                    id: Math.random(),
+                    card: action.payload, status: 'todo', openDelete: true, openUpdate: true, markDone: false
+                }]
+            }
 
 
         default:
