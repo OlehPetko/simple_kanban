@@ -1,6 +1,8 @@
 import '../App.css';
 import {connect} from "react-redux";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import {getTodos} from "../redux/action";
+
 
 function Todo_with_server(props) {
 
@@ -23,6 +25,10 @@ function Todo_with_server(props) {
     const moveHandlerTodo = (currentTodo, nextTodo) => {
       props.moveTodo(currentTodo, nextTodo)
     }
+    useEffect(() => {
+
+        props.getList()
+    }, [])
 
     return (
         <div className="App">
@@ -62,7 +68,8 @@ const mapDispatchToProps = (dispatch) => ({
     openUpdateTodo: (todoId) => dispatch({type: 'OPEN_UPDATE_TODO', payload: todoId}),
     openDeleteTodo: (todoId) => dispatch({type: 'OPEN_DELETE_TODO', payload: todoId}),
     deleteTodo: (todoId) => dispatch({type: 'DELETE_TODO', payload: todoId}),
-    moveTodo: (currentTodo, nextTodo) => dispatch({type: 'MOVE_TODO', payload: {currentTodo, nextTodo}})
+    moveTodo: (currentTodo, nextTodo) => dispatch({type: 'MOVE_TODO', payload: {currentTodo, nextTodo}}),
+    getList: () => dispatch(getTodos())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo_with_server);

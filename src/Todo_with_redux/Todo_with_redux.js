@@ -2,6 +2,8 @@ import '../App.css';
 import {connect} from "react-redux";
 import {useState} from "react";
 
+
+
 function Todo_with_redux(props) {
 
     const {todos} = props
@@ -17,11 +19,11 @@ function Todo_with_redux(props) {
         setUpdateTodo('')
     }
     const openUpdateHandlerTodo = (todoId) => {
-      props.openUpdateTodo(todoId)
+        props.openUpdateTodo(todoId)
         setUpdateTodo('')
     }
     const moveHandlerTodo = (currentTodo, nextTodo) => {
-      props.moveTodo(currentTodo, nextTodo)
+        props.moveTodo(currentTodo, nextTodo)
     }
 
     return (
@@ -43,7 +45,8 @@ function Todo_with_redux(props) {
                         </div>}
                     {todo.openUpdate ? <button onClick={() => props.openUpdateTodo(todo.id)}>update</button> :
                         <div>
-                            <input autoFocus={true} value={updateTodo} onChange={event => setUpdateTodo(event.target.value)}/>
+                            <input autoFocus={true} value={updateTodo}
+                                   onChange={event => setUpdateTodo(event.target.value)}/>
                             <button onClick={() => updateHandlerTodo(todo.id)}>save update</button>
                             <button onClick={() => openUpdateHandlerTodo(todo.id)}>cancel</button>
                         </div>}
@@ -52,6 +55,7 @@ function Todo_with_redux(props) {
         </div>
     );
 }
+
 const mapStateToProps = (state) => ({
     todos: state.todos
 })
@@ -62,7 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
     openUpdateTodo: (todoId) => dispatch({type: 'OPEN_UPDATE_TODO', payload: todoId}),
     openDeleteTodo: (todoId) => dispatch({type: 'OPEN_DELETE_TODO', payload: todoId}),
     deleteTodo: (todoId) => dispatch({type: 'DELETE_TODO', payload: todoId}),
-    moveTodo: (currentTodo, nextTodo) => dispatch({type: 'MOVE_TODO', payload: {currentTodo, nextTodo}})
+    moveTodo: (currentTodo, nextTodo) => dispatch({type: 'MOVE_TODO', payload: {currentTodo, nextTodo}}),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo_with_redux);

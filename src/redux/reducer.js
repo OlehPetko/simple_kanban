@@ -6,7 +6,7 @@ const initialState = {
         {id: Math.random(), counter: 4, buttons: [1, 2, 3, 4]},
         {id: Math.random(), counter: 5, buttons: [1, 2, 3, 4, 5]},
     ],
-    name: ['Liverpool', 'Vancouver', 'LA', 'San Francisco'],
+
     todos: [
         {id: Math.random(), name: 'Liverpool', openTodo: true, openUpdate: true, markTodo: false},
         {id: Math.random(), name: 'Vancouver', openTodo: true, openUpdate: true, markTodo: false},
@@ -23,6 +23,10 @@ const initialState = {
 }
 const tasks = (state = initialState, action) => {
     switch (action.type) {
+        case 'GET_TODO_SERVER': return {
+            ...state, todos: action.payload
+        }
+
         case 'ADD_TODO':
             return {
                 ...state,
@@ -57,7 +61,6 @@ const tasks = (state = initialState, action) => {
                 ...state, todos: state.todos.filter(el => el.id !== action.payload)
             }
         case 'MOVE_TODO':
-            console.log(action.payload)
             return {
                 ...state, todos: state.todos.map((el, index) => {
                     let currentTodo = action.payload.currentTodo
@@ -75,8 +78,21 @@ const tasks = (state = initialState, action) => {
                     card: action.payload, status: 'todo', openDelete: true, openUpdate: true, markDone: false
                 }]
             }
-
-
+        case 'MARK_CARD': return {
+            ...state, cards: state.cards.map(el => el.id === action.payload ? {...el, markDone: !el.markDone} : el)
+        }
+        case 'OPEN_DELETE_CARD': return {
+            ...state, cards: state.cards.map(el => el.id === action.payload ? {...el, openDelete: !el.openDelete} : el)
+        }
+        case 'OPEN_UPDATE_CARD': return {
+            ...state, cards: state.cards.map(el => el.id === action.payload ? {...el, openUpdate: !el.openUpdate} : el)
+        }
+        case 'DELETE_CARD': return {
+            ...state, cards: state.cards.filter(el => el.id !== action.payload)
+        }
+        case 'UPDATE_CARD': return {
+            ...state, cards: state.cards.map(el => el.id === action.payload.cardId ? {...el, card: action.payload.updateCard, openUpdate: !el.openUpdate} : el)
+        }
         default:
             return state
     }
