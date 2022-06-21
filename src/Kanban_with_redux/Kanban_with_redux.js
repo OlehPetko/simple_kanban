@@ -26,8 +26,8 @@ function Kanban_with_redux(props) {
             <input autoFocus={true} placeholder='add new task' value={newCard} onChange={event => setNewCard(event.target.value)}/>
             <button onClick={addNewHandlerCard}>add card</button>
             {statuses.map(status =>
-                <div>
-                    <h3 key={status}>{status}</h3>
+                <div  key={status}>
+                    <h3>{status}</h3>
                     {cards.filter(card => card.status === status).map(card =>
                         <div key={card.id} style={card.markDone ? {textDecoration: 'line-through'} : null}>
                             <input type="checkbox" onClick={() => props.markCard(card.id)}/>
